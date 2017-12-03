@@ -1,7 +1,3 @@
-
-
-
-
 from flask import Flask, Response, render_template, request
 import json
 from subprocess import Popen, PIPE
@@ -58,11 +54,8 @@ def containers_index():
 @app.route('/images', methods=['GET'])
 def images_index():
     """
-    List all images 
-    
-    Complete the code below generating a valid response. 
-    curl -s -X GET -H 'Accept: application/json' http://localhost:8080/images | python -mjson.tool
-
+    List all images
+    Complete the code below generating a valid response.
     """
     
     output = docker('images')
@@ -73,7 +66,6 @@ def images_index():
 def containers_show(id):
     """
     Inspect specific container
-    curl -s -X GET -H 'Accept: application/json' http://localhost:8080/containers/75e41d966c0e | python -mjson.tool
     """
 
     resp = docker('inspect', id)
@@ -83,7 +75,6 @@ def containers_show(id):
 def containers_log(id):
     """
     Dump specific container logs
-    curl -s -X GET -H 'Accept: application/json' http://localhost:8080/containers/75e41d966c0e/logs | python -mjson.tool
     """
 
     resp = docker('logs', id)
@@ -94,7 +85,6 @@ def containers_log(id):
 def images_remove(id):
     """
     Delete a specific image
-    curl -s -X GET -H 'Content-Type: application/json' http://localhost:8080/images/72d1e9189d7b
     """
     docker ('rmi', id)
     resp = '{"id": "%s"}' % id
@@ -104,7 +94,6 @@ def images_remove(id):
 def containers_remove(id):
     """
     Delete a specific container - must be already stopped/killed
-    curl -s -X GET -H 'Accept: application/json' http://localhost:8080/containers/75e41d966c0e
     """
     resp = docker('rm', id)
     return Response(response=resp, mimetype="application/json")
@@ -113,9 +102,8 @@ def containers_remove(id):
 def containers_remove_all():
     """
     Force remove all containers - dangerous!
-    curl -s -X GET -H 'Accept: application/json' http://localhost:8080/containers
-
     """
+
     output = docker('ps', '-a')
     containers = docker_ps_to_array(output)
     for container in containers:
@@ -128,7 +116,6 @@ def containers_remove_all():
 def images_remove_all():
     """
     Force remove all images - dangerous!
-    curl -s -X GET -H 'Accept: application/json' http://localhost:8080/images
     """
  
     output = docker('images')
@@ -180,11 +167,8 @@ def images_create():
 def containers_update(id):
     """
     Update container attributes (support: state=running|stopped)
-
-    curl -X PATCH -H 'Content-Type: application/json' http://localhost:8080/containers/b6cd8ea512c8 -d '{"state": "running"}'
-    curl -X PATCH -H 'Content-Type: application/json' http://localhost:8080/containers/b6cd8ea512c8 -d '{"state": "stopped"}'
-
     """
+
     body = request.get_json(force=True)
     try:
         state = body['state']
@@ -202,10 +186,8 @@ def containers_update(id):
 def images_update(id):
     """
     Update image attributes (support: name[:tag])  tag name should be lowercase only
-
-    curl -s -X PATCH -H 'Content-Type: application/json' http://localhost:8080/images/7f2619ed1768 -d '{"tag": "test:1.0"}'
-
     """
+
     body = request.get_json(force=True)
     resp = docker('tag', id, body['tag'])
     return Response(response=resp, mimetype="application/json")
