@@ -2,7 +2,7 @@ Cloud Computing Assignment
 Ira Javier
 C15362901
 
-IPADD: 35.205.234.34:8080
+IPADD: http://35.205.234.34/
 
 All my tests are in the restfulapi-test.sh -> these commands will run the different methods [GET,POST,PATCH,DELETE]
 
