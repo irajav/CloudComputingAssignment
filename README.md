@@ -3,6 +3,7 @@ Ira Javier
 C15362901
 
 IPADD: http://35.205.234.34/
+DEMO: https://youtu.be/gLFsywIFQGk
 
 All my tests are in the restfulapi-test.sh -> these commands will run the different methods [GET,POST,PATCH,DELETE]
 
